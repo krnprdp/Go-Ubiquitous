@@ -201,9 +201,13 @@ public class SunshineWatchFace extends CanvasWatchFaceService {
 
                     for (DataItem dataItem : dataItems) {
                         Log.d(LOG_TAG, "onResult: " + dataItem.getUri().getPath());
-//                        if (dataItem.getUri().getPath().equals(UPDATE_DATA_WEAR_URI)) {
-//                            processSunshineDataItem(dataItem);
-//                        }
+                        DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
+                        mHigh = dataMap.getString("high");
+                        mLow = dataMap.getString("low");
+                        Log.d(LOG_TAG, "High: " + mHigh + " Low: " + mLow);
+                        Asset icon = dataMap.getAsset("icon");
+                        new LoadBitmapAsyncTask().execute(icon);
+                        invalidate();
                     }
 
                     dataItems.release();
